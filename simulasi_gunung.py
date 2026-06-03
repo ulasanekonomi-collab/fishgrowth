@@ -23,7 +23,7 @@ K = max(1000, K) # Pastikan K minimal 1000
 populasi_saat_ini = st.sidebar.slider("Jumlah Populasi Ikan Saat Ini", 0, int(K*1.5), int(K*0.5))
 
 # --- AREA UTAMA ---
-st.title("🏔️ Anatomi 'Gunung' Pertumbuhan Ikan")
+st.title("🏔️ SIMULASI PERTUMBUHAN SUMBER DAYA IKAN")
 st.write(f"**Carrying Capacity (K) saat ini:** {int(K)} unit biomassa.")
 
 # Perhitungan pertumbuhan
