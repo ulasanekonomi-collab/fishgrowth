@@ -23,7 +23,7 @@ K = max(1000, K) # Pastikan K minimal 1000
 populasi_saat_ini = st.sidebar.slider("Jumlah Populasi Ikan Saat Ini", 0, int(K*1.5), int(K*0.5))
 
 # --- AREA UTAMA ---
-st.title("🏔️ SIMULASI PERTUMBUHAN SUMBER DAYA IKAN")
+st.title("🏔️ Anatomi 'Gunung' Pertumbuhan Ikan")
 st.write(f"**Carrying Capacity (K) saat ini:** {int(K)} unit biomassa.")
 
 # Perhitungan pertumbuhan
@@ -70,3 +70,7 @@ st.info("""
 - Jika **Indeks Pencemaran** naik, lihat bagaimana gunung menyusut dan titik MSY bergeser ke kiri.
 - Jika **Luasan Mangrove/Terumbu** bertambah, gunung akan tumbuh melebar, menunjukkan daya dukung (K) yang lebih besar bagi ikan.
 """)
+
+# --- FOOTER ---
+st.markdown("---")
+st.markdown("##### Dikembangkan Oleh: Yuhka Sundaya | Ekonomi Pembangunan Unisba, 2026")
