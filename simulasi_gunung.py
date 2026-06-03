@@ -16,31 +16,16 @@ indeks_pencemaran = st.sidebar.slider("Tingkat Pencemaran (0=Bersih, 10=Sangat T
 r = st.sidebar.slider("Laju Pertumbuhan Intrinsik (r)", 0.1, 1.0, 0.5, step=0.1)
 
 st.sidebar.markdown("---")
-# K dihitung berdasarkan luasan habitat dan dikurangi dampak pencemaran
+# Menghitung Carrying Capacity (K)
 K = ((luas_terumbu * 1.5) + (luas_mangrove * 1.2)) * (10 - indeks_pencemaran)
-K = max(1000, K) # Pastikan K minimal 1000
+K = max(1000, K) 
 
 populasi_saat_ini = st.sidebar.slider("Jumlah Populasi Ikan Saat Ini", 0, int(K*1.5), int(K*0.5))
 
 # --- AREA UTAMA ---
-st.title("SIMULASI PERTUMBUHAN SUMBER DAYA IKAN")
+st.title("🏔️ Anatomi 'Gunung' Pertumbuhan Ikan")
 st.write(f"**Carrying Capacity (K) saat ini:** {int(K)} unit biomassa.")
-# --- PANEL RUMUS INTERAKTIF ---
-st.markdown("### Memahami Persamaan Pertumbuhan")
-st.latex(r'''
-\frac{dx}{dt} = r \cdot x \cdot \left( 1 - \frac{x}{K} \right)
-''')
 
-# Menampilkan nilai saat ini ke dalam rumus
-st.write(f"""
-Dengan nilai parameter saat ini:
-- **r (Laju):** {r}
-- **x (Populasi):** {populasi_saat_ini}
-- **K (Daya Dukung):** {int(K)}
-
-Maka, laju perubahan populasi saat ini ($dx/dt$) adalah: 
-**{r} × {populasi_saat_ini} × (1 - {populasi_saat_ini}/{int(K)}) = {pertumbuhan:.2f}**
-""")
 # Perhitungan pertumbuhan
 pertumbuhan = r * populasi_saat_ini * (1 - (populasi_saat_ini / K))
 
@@ -63,14 +48,12 @@ st.markdown(f"### Status Fase: <span style='color:{warna}'>{fase}</span>", unsaf
 # --- VISUALISASI ---
 x_vals = np.linspace(0, K*1.2, 500)
 y_vals = r * x_vals * (1 - (x_vals / K))
-# Pastikan tidak negatif di grafik
 y_vals = np.maximum(y_vals, 0)
 
-fig, ax = plt.subplots(figsize=(10, 5))
+fig, ax = plt.subplots(figsize=(10, 4))
 ax.plot(x_vals, y_vals, color='black', lw=2, label='Kurva Pertumbuhan')
 ax.scatter([populasi_saat_ini], [pertumbuhan], color=warna, s=200, zorder=5, label='Kondisi Saat Ini')
 ax.fill_between(x_vals, y_vals, color='skyblue', alpha=0.3)
-
 ax.set_title('Hubungan Biomassa dan Pertumbuhan Ikan Baru')
 ax.set_xlabel('Biomassa Ikan (x)')
 ax.set_ylabel('Tambahan Ikan Baru (F(x))')
@@ -78,13 +61,26 @@ ax.grid(True, alpha=0.3)
 ax.legend()
 st.pyplot(fig)
 
-st.write("---")
-st.info("""
-**Catatan untuk Mahasiswa:**
-- Titik **MSY** adalah titik puncak gunung (di mana pertumbuhan paling maksimal).
-- Jika **Indeks Pencemaran** naik, lihat bagaimana gunung menyusut dan titik MSY bergeser ke kiri.
-- Jika **Luasan Mangrove/Terumbu** bertambah, gunung akan tumbuh melebar, menunjukkan daya dukung (K) yang lebih besar bagi ikan.
+# --- PANEL RUMUS INTERAKTIF ---
+st.markdown("### Memahami Persamaan Pertumbuhan")
+st.latex(r'''
+\frac{dx}{dt} = r \cdot x \cdot \left( 1 - \frac{x}{K} \right)
+''')
+
+st.write("Dengan nilai parameter saat ini:")
+st.markdown(f"""
+- **r (Laju Pertumbuhan):** {r}
+- **x (Populasi Ikan):** {populasi_saat_ini}
+- **K (Daya Dukung):** {int(K)}
 """)
+
+st.write("Maka, laju perubahan populasi saat ini ($dx/dt$) adalah:")
+st.markdown(f"**{r} × {populasi_saat_ini} × (1 - {populasi_saat_ini}/{int(K)}) = {pertumbuhan:.2f}**")
+
+
+
+st.write("---")
+st.info("💡 **Insight untuk Mahasiswa:** Titik MSY (puncak gunung) menunjukkan titik di mana pertumbuhan ikan paling optimal. Perubahan pada luasan habitat atau tingkat pencemaran akan menggeser titik ini secara instan.")
 
 # --- FOOTER ---
 st.markdown("---")
