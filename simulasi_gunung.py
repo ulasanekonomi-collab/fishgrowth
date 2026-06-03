@@ -25,7 +25,22 @@ populasi_saat_ini = st.sidebar.slider("Jumlah Populasi Ikan Saat Ini", 0, int(K*
 # --- AREA UTAMA ---
 st.title("SIMULASI PERTUMBUHAN SUMBER DAYA IKAN")
 st.write(f"**Carrying Capacity (K) saat ini:** {int(K)} unit biomassa.")
+# --- PANEL RUMUS INTERAKTIF ---
+st.markdown("### Memahami Persamaan Pertumbuhan")
+st.latex(r'''
+\frac{dx}{dt} = r \cdot x \cdot \left( 1 - \frac{x}{K} \right)
+''')
 
+# Menampilkan nilai saat ini ke dalam rumus
+st.write(f"""
+Dengan nilai parameter saat ini:
+- **r (Laju):** {r}
+- **x (Populasi):** {populasi_saat_ini}
+- **K (Daya Dukung):** {int(K)}
+
+Maka, laju perubahan populasi saat ini ($dx/dt$) adalah: 
+**{r} × {populasi_saat_ini} × (1 - {populasi_saat_ini}/{int(K)}) = {pertumbuhan:.2f}**
+""")
 # Perhitungan pertumbuhan
 pertumbuhan = r * populasi_saat_ini * (1 - (populasi_saat_ini / K))
 
